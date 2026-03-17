@@ -1,59 +1,53 @@
-# Core Files Checklist
+# Repository Notes
 
-This folder is a clean GitHub preparation pack for the original local project:
+本文件用于补充仓库结构和开源整理要点，方便后续维护或继续扩展。
 
-`D:\document\新建文件夹\仿真汇总\仿真Auto计划\tcad-gan-assistant`
+## 仓库主体
 
-## Copy These Into This Folder If You Want a Minimal Repo
+当前仓库主要包含三部分：
 
-- `src\`
-- `scripts\check.js`
-- `scripts\smoke.js`
-- `scripts\ocr_scanned_pdfs.py`
-- `package.json`
-- `package-lock.json`
+- `src/`：VSCode 扩展核心逻辑
+- `scripts/`：检查、smoke 验证和 OCR 辅助脚本
+- `README`、`package.json`、`.gitignore`：项目说明与基础配置
 
-Optional:
+## 最具代表性的核心文件
 
-- `README.md` from the original project if you want the longer Chinese version
-- selected architecture notes after cleanup
+- `src/extension.js`
+- `src/indexer.js`
+- `src/search.js`
+- `src/vector.js`
+- `src/requirement.js`
+- `src/caseBased.js`
+- `src/diagnostics.js`
+- `src/prescription.js`
 
-## Keep Out of the Repo
+这些文件基本覆盖了项目的三条主线：本地 RAG、需求驱动生成、日志诊断与收敛建议。
 
-- `node_modules\`
-- `.tcad-assistant\`
-- `tcad-gan-assistant-local.vsix`
-- `代码资料库\`
-- temporary files such as `Untitled-*.md`
-- local generated reports and OCR caches
+## 本地工作区约定
 
-## What Represents the Project Best
+- 默认知识库目录为仓库根目录下的 `代码资料库/`
+- 索引、状态报告、OCR 缓存等运行时产物输出到 `.tcad-assistant/`
+- `npm run smoke` 和 `npm run ocr:scanned` 在存在本地资料库时效果最佳
 
-If you only want to show the essence of the project on GitHub, the most representative files are:
+## 适合继续补充的内容
 
-- `src\indexer.js`
-- `src\search.js`
-- `src\vector.js`
-- `src\requirement.js`
-- `src\caseBased.js`
-- `src\diagnostics.js`
-- `src\prescription.js`
-- `src\extension.js`
+- 一组可公开的示例资料或最小样例知识库
+- 扩展运行截图或命令演示图
+- 更完整的诊断规则样例
+- 模板生成前后对比示例
 
-## Recommended Upload Order
-
-1. Copy the core source files and scripts into this folder.
-2. Keep the current `.gitignore`.
-3. Review whether any local docs or notes contain sensitive or copyrighted content.
-4. Initialize Git and push to GitHub.
-
-## Git Commands
+## 发布前检查
 
 ```bash
-git init
+npm install
+npm run check
+git status
+```
+
+如果需要同步到 GitHub：
+
+```bash
 git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin <your-github-repo-url>
-git push -u origin main
+git commit -m "Update documentation"
+git push
 ```
