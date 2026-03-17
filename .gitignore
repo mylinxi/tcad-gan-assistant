@@ -1,0 +1,13 @@
+node_modules/
+.tcad-assistant/
+.vscode/
+.DS_Store
+
+*.vsix
+*.log
+
+代码资料库/
+OCR文本/
+
+Untitled-*.md
+\# 索引处理状态报告.md

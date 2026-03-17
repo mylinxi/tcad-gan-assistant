@@ -1,0 +1,129 @@
+{
+  "name": "tcad-gan-assistant",
+  "displayName": "TCAD GaN Assistant",
+  "description": "VSCode 本地 Sentaurus TCAD GaN 助手：知识检索、模板插入、日志诊断、收敛建议",
+  "version": "0.1.0",
+  "publisher": "local",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:tcadAssistant.buildKnowledgeIndex",
+    "onCommand:tcadAssistant.showIndexStatus",
+    "onCommand:tcadAssistant.searchKnowledge",
+    "onCommand:tcadAssistant.generateByRequirement",
+    "onCommand:tcadAssistant.insertTemplate",
+    "onCommand:tcadAssistant.diagnoseLog",
+    "onCommand:tcadAssistant.convergencePrescription"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "tcadAssistant.buildKnowledgeIndex",
+        "title": "TCAD: 构建/重建知识索引"
+      },
+      {
+        "command": "tcadAssistant.searchKnowledge",
+        "title": "TCAD: 检索手册与实例"
+      },
+      {
+        "command": "tcadAssistant.showIndexStatus",
+        "title": "TCAD: 查看索引处理状态"
+      },
+      {
+        "command": "tcadAssistant.insertTemplate",
+        "title": "TCAD: 一键插入 GaN 模板"
+      },
+      {
+        "command": "tcadAssistant.generateByRequirement",
+        "title": "TCAD: 按建模需求生成（RequirementCard）"
+      },
+      {
+        "command": "tcadAssistant.diagnoseLog",
+        "title": "TCAD: 日志报错诊断"
+      },
+      {
+        "command": "tcadAssistant.convergencePrescription",
+        "title": "TCAD: 收敛性处方建议"
+      }
+    ],
+    "configuration": {
+      "title": "TCAD GaN Assistant",
+      "properties": {
+        "tcadAssistant.docsRoot": {
+          "type": "string",
+          "default": "${workspaceFolder}/代码资料库",
+          "description": "知识库根目录（官方手册、实例、你的节选资料）"
+        },
+        "tcadAssistant.indexPath": {
+          "type": "string",
+          "default": "${workspaceFolder}/.tcad-assistant/index.json",
+          "description": "索引输出路径"
+        },
+        "tcadAssistant.statusPath": {
+          "type": "string",
+          "default": "${workspaceFolder}/.tcad-assistant/index-status.json",
+          "description": "索引处理状态报告输出路径"
+        },
+        "tcadAssistant.vectorIndexPath": {
+          "type": "string",
+          "default": "${workspaceFolder}/.tcad-assistant/vector-index.json",
+          "description": "向量索引输出路径"
+        },
+        "tcadAssistant.maxChunkChars": {
+          "type": "number",
+          "default": 1200,
+          "description": "文本切片大小（字符）"
+        },
+        "tcadAssistant.chunkOverlapChars": {
+          "type": "number",
+          "default": 180,
+          "description": "切片重叠大小（字符）"
+        },
+        "tcadAssistant.maxFileSizeMB": {
+          "type": "number",
+          "default": 50,
+          "description": "单文件可解析上限（MB）"
+        },
+        "tcadAssistant.maxIndexedFiles": {
+          "type": "number",
+          "default": 4000,
+          "description": "最多索引文件数"
+        },
+        "tcadAssistant.vectorDims": {
+          "type": "number",
+          "default": 384,
+          "description": "向量维度（建议 256~1024）"
+        },
+        "tcadAssistant.retrievalMode": {
+          "type": "string",
+          "default": "hybrid",
+          "enum": [
+            "hybrid",
+            "lexical",
+            "vector"
+          ],
+          "description": "检索模式：hybrid(默认) / lexical / vector"
+        },
+        "tcadAssistant.hybridWeight": {
+          "type": "number",
+          "default": 0.62,
+          "description": "混合检索中 lexical 权重（0~1），vector 权重=1-该值"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "check": "node scripts/check.js",
+    "smoke": "node scripts/smoke.js",
+    "ocr:scanned": "python scripts/ocr_scanned_pdfs.py --workspace . --download-chi-sim"
+  },
+  "dependencies": {
+    "pdf-parse": "^1.1.1"
+  }
+}
